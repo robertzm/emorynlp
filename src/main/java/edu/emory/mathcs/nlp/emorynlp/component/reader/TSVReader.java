@@ -19,10 +19,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 
+import edu.emory.mathcs.nlp.bin.NERTrain;
 import edu.emory.mathcs.nlp.common.constant.StringConst;
 import edu.emory.mathcs.nlp.common.util.IOUtils;
 import edu.emory.mathcs.nlp.common.util.Splitter;
@@ -110,7 +110,7 @@ public class TSVReader
 		FeatMap t = (feats  >= 0) ? new FeatMap(values[feats]) : new FeatMap();
 		
 		N node = supplier.get();
-		node.set(id, f, l, p, n, t, null, null);
+		node.set(id, f, l, p, n, t, null, null, NERTrain.hm.containsKey(f.toLowerCase())? NERTrain.hm.get(f.toLowerCase()): new HashSet<>());
 		return node;
 	}
 	

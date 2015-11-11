@@ -25,6 +25,7 @@ import edu.emory.mathcs.nlp.emorynlp.component.config.NLPConfig;
 import edu.emory.mathcs.nlp.emorynlp.component.eval.Eval;
 import edu.emory.mathcs.nlp.emorynlp.component.eval.F1Eval;
 import edu.emory.mathcs.nlp.emorynlp.component.node.NLPNode;
+import edu.emory.mathcs.nlp.emorynlp.ner.AmbiguityClassMap;
 
 /**
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
@@ -32,6 +33,7 @@ import edu.emory.mathcs.nlp.emorynlp.component.node.NLPNode;
 public class NERTagger<N extends NLPNode> extends NLPOnlineComponent<N,NERState<N>>
 {
 	private static final long serialVersionUID = 87807440372806016L;
+	private AmbiguityClassMap ambiguity_class_map;
 
 	public NERTagger() {}
 	
@@ -45,17 +47,26 @@ public class NERTagger<N extends NLPNode> extends NLPOnlineComponent<N,NERState<
 	@Override
 	protected void readLexicons(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
-		
+		ambiguity_class_map = (AmbiguityClassMap)in.readObject();
 	}
 
 	@Override
 	protected void writeLexicons(ObjectOutputStream out) throws IOException
 	{
-		
+		out.writeObject(ambiguity_class_map);
 	}
 	
+    public AmbiguityClassMap getAmbiguityClassMap()
+{
+	return ambiguity_class_map;
+}
+
+	public void setAmbiguityClassMap(AmbiguityClassMap map)
+	{
+		ambiguity_class_map = map;
+	}
 //	============================== ABSTRACT ==============================
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public void setConfiguration(InputStream in)
@@ -72,6 +83,6 @@ public class NERTagger<N extends NLPNode> extends NLPOnlineComponent<N,NERState<
 	@Override
 	protected NERState<N> initState(N[] nodes)
 	{
-		return new NERState<>(nodes);
+		return new NERState<>(nodes, ambiguity_class_map);
 	}
 }

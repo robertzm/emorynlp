@@ -17,6 +17,7 @@ package edu.emory.mathcs.nlp.emorynlp.ner;
 
 import java.io.InputStream;
 
+import edu.emory.mathcs.nlp.common.util.XMLUtils;
 import edu.emory.mathcs.nlp.emorynlp.component.config.NLPConfig;
 import edu.emory.mathcs.nlp.emorynlp.component.node.NLPNode;
 
@@ -25,10 +26,22 @@ import edu.emory.mathcs.nlp.emorynlp.component.node.NLPNode;
  */
 public class NERConfig extends NLPConfig<NLPNode>
 {
+	private double ambiguity_class_threshold;
 	public NERConfig() {}
-	
+
 	public NERConfig(InputStream in)
 	{
 		super(in);
+		setAmbiguityClassThreshold(XMLUtils.getDoubleTextContentFromFirstElementByTagName(xml, "ambiguity_class_threshold"));
+	}
+
+	public double getAmbiguityClassThreshold()
+	{
+		return ambiguity_class_threshold;
+	}
+
+	public void setAmbiguityClassThreshold(double threshold)
+	{
+		ambiguity_class_threshold = threshold;
 	}
 }

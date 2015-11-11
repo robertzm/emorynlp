@@ -100,13 +100,12 @@ public abstract class NLPOnlineTrain<N extends NLPNode,S extends NLPState<N>>
 		component.setFeatureTemplate(template);
 	}
 	
-	protected abstract void initComponent(NLPOnlineComponent<N,S> component, List<String> inputFiles);
+	protected abstract void initComponent(NLPOnlineComponent<N,S> component, List<String> inputFiles) throws IOException;
 	protected abstract NLPOnlineComponent<N,S> createComponent(InputStream config);
 	protected abstract FeatureTemplate<N,S> createFeatureTemplate();
 	protected abstract N createNode();
 	
-	public void train()
-	{
+	public void train() throws IOException {
 		List<String> trainFiles   = FileUtils.getFileList(train_path  , train_ext);
 		List<String> developFiles = FileUtils.getFileList(develop_path, develop_ext);
 		NLPOnlineComponent<N,S> component = createComponent(IOUtils.createFileInputStream(configuration_file));

@@ -15,6 +15,7 @@
  */
 package edu.emory.mathcs.nlp.bin;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -86,8 +87,7 @@ public class POSTrain extends NLPOnlineTrain<NLPNode,POSState<NLPNode>>
 		return ac;
 	}
 	
-	static public void main(String[] args)
-	{
+	static public void main(String[] args) throws IOException {
 		new POSTrain(args).train();
 	}
 }

@@ -46,6 +46,9 @@ public enum Field
 	
 	// distributional semantics
 	clusters,
+
+	// NER dictionary
+	gazetteer,
 	
 	// more
 	binary;	// set

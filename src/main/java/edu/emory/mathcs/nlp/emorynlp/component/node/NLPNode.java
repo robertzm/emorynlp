@@ -59,46 +59,46 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 	protected String       dependency_label;
 	protected NLPNode      dependency_head;
 	protected List<SRLArc> semantic_heads;
+	protected Set<String> NERDictionary;
 
 	// inferred fields
 	protected int id;
 	protected String simplified_word_form;
 	protected SortedArrayList<NLPNode> dependent_list;
-	
+
 	public NLPNode() {}
 	
 	public NLPNode(int id, String form)
 	{
-		set(id, form, null, null, null, new FeatMap(), null, null);
+		set(id, form, null, null, null, new FeatMap(), null, null, null);
 	}
 	
 	public NLPNode(int id, String form, String tag)
 	{
-		set(id, form, null, null, null, new FeatMap(), null, null);
+		set(id, form, null, null, null, new FeatMap(), null, null, null);
 	}
 	
-	public NLPNode(int id, String form, String lemma, String posTag, FeatMap feats)
+	public NLPNode(int id, String form, String lemma, String posTag, FeatMap feats, Set<String> nerDict)
 	{
-		set(id, form, lemma, posTag, null, feats, null, null);
+		set(id, form, lemma, posTag, null, feats, null, null, nerDict);
 	}
 	
-	public NLPNode(int id, String form, String lemma, String posTag, String namentTag, FeatMap feats)
+	public NLPNode(int id, String form, String lemma, String posTag, String namentTag, FeatMap feats, Set<String> nerDict)
 	{
-		set(id, form, lemma, posTag, namentTag, feats, null, null);
+		set(id, form, lemma, posTag, namentTag, feats, null, null, nerDict);
 	}
 	
-	public NLPNode(int id, String form, String lemma, String posTag, FeatMap feats, NLPNode dhead, String deprel)
+	public NLPNode(int id, String form, String lemma, String posTag, FeatMap feats, NLPNode dhead, String deprel, Set<String> nerDict)
 	{
-		set(id, form, lemma, posTag, null, feats, dhead, deprel);
+		set(id, form, lemma, posTag, null, feats, dhead, deprel, nerDict);
 	}
 	
-	public NLPNode(int id, String form, String lemma, String posTag, String namentTag, FeatMap feats, NLPNode dhead, String deprel)
+	public NLPNode(int id, String form, String lemma, String posTag, String namentTag, FeatMap feats, NLPNode dhead, String deprel, Set<String> nerDict)
 	{
-		set(id, form, lemma, posTag, namentTag, feats, dhead, deprel);
+		set(id, form, lemma, posTag, namentTag, feats, dhead, deprel, nerDict);
 	}
-	
-	public void set(int id, String form, String lemma, String posTag, String namentTag, FeatMap feats, NLPNode dhead, String deprel)
-	{
+
+	public void set(int id, String form, String lemma, String posTag, String namentTag, FeatMap feats, NLPNode dhead, String deprel, Set<String> nerDict) {
 		setID(id);
 		setWordForm(form);
 		setLemma(lemma);
@@ -107,14 +107,15 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 		setFeatMap(feats);
 		setDependencyHead(dhead);
 		setDependencyLabel(deprel);
-		
+		setNERDictionary(nerDict);
+
 		dependent_list = new SortedArrayList<>();
 		semantic_heads = new ArrayList<>();
 	}
 	
 	public void setToRoot()
 	{
-		set(0, ROOT_TAG, ROOT_TAG, ROOT_TAG, ROOT_TAG, new FeatMap(), null, null);
+		set(0, ROOT_TAG, ROOT_TAG, ROOT_TAG, ROOT_TAG, new FeatMap(), null, null, null);
 	}
 	
 //	============================== GETTERS ==============================
@@ -522,7 +523,7 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 	
 	/**
 	 * Get the list of all the dependency nodes of the node by labels set.
-	 * @param y labels set
+	 * @param labels labels set
 	 * @return list of all the dependency nodes of the node by labels set
 	 */
 	public List<NLPNode> getDependentListByLabel(Set<String> labels)
@@ -540,7 +541,7 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 	
 	/**
 	 * Get the list of all the dependency nodes of the node by label pattern.
-	 * @param y label pattern
+	 * @param pattern label pattern
 	 * @return list of all the dependency nodes of the node by label pattern
 	 */
 	public List<NLPNode> getDependentListByLabel(Pattern pattern)
@@ -575,7 +576,7 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 	
 	/**
 	 * Get the list of all the left dependency nodes of the node by label pattern.
-	 * @param y label pattern
+	 * @param pattern label pattern
 	 * @return list of all the left dependency nodes of the node by label pattern
 	 */
 	public List<NLPNode> getLeftDependentListByLabel(Pattern pattern)
@@ -610,7 +611,7 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 	
 	/**
 	 * Get the list of all the right dependency nodes of the node by label pattern.
-	 * @param y label pattern
+	 * @param pattern label pattern
 	 * @return list of all the right dependency nodes of the node by label pattern
 	 */
 	public List<NLPNode> getRightDependentListByLabel(Pattern pattern)
@@ -1050,7 +1051,7 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 	
 	/**
 	 * Clear out all dependencies (head, label, and sibling relations) of the node.
-	 * @param the previous head information.
+	 * the previous head information.
 	 */
 	public DEPArc clearDependencies()
 	{
@@ -1432,5 +1433,12 @@ public class NLPNode implements Serializable, Comparable<NLPNode>
 		
 		Collections.sort(arcs);
 		return Joiner.join(arcs, AbstractArc.ARC_DELIM);
+	}
+
+	public void setNERDictionary(Set<String> NERDictionary) {
+		this.NERDictionary = NERDictionary;
+	}
+	public Set<String> getNERDictionary(){
+		return this.NERDictionary;
 	}
 }

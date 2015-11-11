@@ -263,7 +263,10 @@ public abstract class NLPOnlineComponent<N extends NLPNode,S extends NLPState<N>
 			
 			state.next(new StringPrediction(model.getLabel(yhat), scores[yhat]));
 		}
-	
+
+		//
+		// POSTs
+
 		if (isEvaluate()) state.evaluate(eval);
 	}
 	
