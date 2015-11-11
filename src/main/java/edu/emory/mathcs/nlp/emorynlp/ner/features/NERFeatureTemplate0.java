@@ -90,6 +90,8 @@ public class NERFeatureTemplate0<N extends NLPNode> extends NERFeatureTemplate<N
 		addSet(new FeatureItem<>(1, Field.clusters, 0));
 		addSet(new FeatureItem<>(2, Field.clusters, 0));
 
-		addSet(new FeatureItem<>(0, Field.gazetteer, 0));
+		addSet(new FeatureItem<>( 0, Field.gazetteer, 0));
+		addSet(new FeatureItem<>(-1, Field.gazetteer, 0));
+		addSet(new FeatureItem<>( 1, Field.gazetteer, 0));
 	}
 }

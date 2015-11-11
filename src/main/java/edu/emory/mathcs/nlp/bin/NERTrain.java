@@ -54,8 +54,8 @@ public class NERTrain extends NLPOnlineTrain<NLPNode,NERState<NLPNode>>
 		initComponentSingleModel(component, inputFiles);
 
         List<String> ambiDicts = new ArrayList<>();
-        //ambiDicts.add("prefixtree_dbpedia_undigitalized.txt");
-        ambiDicts.add("tmp.txt");
+        ambiDicts.add("prefixtree_dbpedia_undigitalized.txt");
+        //ambiDicts.add("tmp.txt");
         createAmbiguityClasseMap(ambiDicts);
 	}
 	
